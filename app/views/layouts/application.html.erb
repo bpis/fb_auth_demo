@@ -5,19 +5,96 @@
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+   
+<style>
+.login {
+    color: #333333;
+    display: block;
+    font-weight: bold;
+    margin-top: 8px;
+}
+.facebook {
+   /* border-bottom: 1px solid #CCCCCC; */
+}
+</style>
 </head>
 <body>
+<div id="fb-root"></div>
+<script>
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+   
+  // Additional JS functions here
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '153507064794513', // App ID
+      //channelUrl : '//localhost:3000/', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true,  // parse XFBML
+      //oauth		 : true
+    });
+
+    // Additional init code here
+	FB.getLoginStatus(function(response) {
+	  if (response && response.status === 'connected') {
+	    // connected
+	  } else if (response.status === 'not_authorized') {
+	    // not_authorized
+	    //login();
+	  } else {
+	    // not_logged_in
+	    //login();
+	  }
+	 });
+
+  };
+  
+  function login() {
+  
+    FB.login(function(response) {
+        FB.api('/me', function(response) {
+          //link_account(response);
+        });
+       }, {scope: 'email, opts'});
+}
+
+
+</script>
 
 
 <div id="user_nav">
   <% if current_user %>
     Signed in as <strong><%= current_user.email %></strong>!
+     <strong><%= current_user.name %></strong>
+      <strong><%= current_user.sex %></strong>
+      <%= current_user.about_me %>
+      <%= current_user.birthday %>
+      <%= current_user.hometown %>
+      <%= current_user.location %>
+      <%= current_user.relationships %>
+      <%= current_user.relationship_details %>
+      <%= current_user.publish_stream %>
+      <%= current_user.status_update %>
+      <%= current_user.photo_upload %>
+      <%= current_user.read_friendlists %>
+       
     <strong><%#= current_user.email %>
     </strong>
     
     <%= link_to "Sign out", signout_path, id: "sign_out" %>
   <% else %>
-    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+
+  <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+
+
+     
   <% end %>
 </div>
 

@@ -16,11 +16,23 @@ ActiveRecord::Schema.define(:version => 20121018095621) do
   create_table "users", :force => true do |t|
     t.string   "provider"
     t.string   "uid"
-    t.string   "name"
+    t.string   "email"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name",                 :limit => 45
+    t.string   "sex"
+    t.string   "about_me"
+    t.string   "birthday"
+    t.string   "hometown"
+    t.string   "location"
+    t.string   "relationships"
+    t.string   "relationship_details"
+    t.string   "publish_stream"
+    t.string   "status_update"
+    t.string   "photo_upload"
+    t.string   "read_friendlists"
   end
 
 end
